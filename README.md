@@ -1,0 +1,2 @@
+# AwesomeADR
+Architecture decision log
