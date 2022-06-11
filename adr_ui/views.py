@@ -62,6 +62,6 @@ def get_adr(request, adr_id = None, template_name='adr_ui/new_adr.html'):
     return render(request, template_name, {'form': form})
 
 def gen_overview(request):
-    
-    return HttpResponse(render_to_string('adr_ui/overview.html', { 'foo': 'bar' }))
+    pumlContent = render_to_string('adr_ui/puml_template.puml', { 'obj': ADR.objects.all() })
+    return HttpResponse(render_to_string('adr_ui/overview.html', { 'pumlContent': pumlContent }))
     #return render(request, 'adr_ui/overview.html')

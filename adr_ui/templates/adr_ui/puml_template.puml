@@ -1,0 +1,35 @@
+@startuml
+header
+Last updated: %date()
+endheader
+
+title Архитектурные решения
+
+' TODO :: Push labels to DB
+' << (?,lightblue) >>
+' TODO :: Move "ADR" prefix to some kind of config
+{% for adr in obj%}
+class ADR-{{ adr.id }} << (?,lightblue) >>{
+' a3.first().__dict__.get('Decision context')
+Предпосылки/контекст:\n{{ adr.decContext }}
+--
+Решение: \n{{ adr.decision }}
+--
+Последствия: \n{{ adr.effects }}
+--
+Затрагивемые системы:\n* {{  adr.affectedSolutions }}
+--
+Проект:  [[{{ adr.projectLink }}]]
+--
+Дата: {{ adr.adrCreatedAt }}
+}
+{% endfor %}
+' TODO :: Push to DB
+legend bottom right
+|=|=Описание|
+|<#limegreen>+|актуальное действующее решение|
+|<#lightblue>?|предложенное решение|
+|<#orange>T|временное решение|
+|<#gray>X|отменённое решение|
+endlegend
+@enduml

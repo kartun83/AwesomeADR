@@ -7,7 +7,16 @@ from numpy import unique
 # Create your models here.
 
 class Status(models.Model):
-    description = models.TextField()
+    description = models.TextField( db_column = 'description', 
+                                    verbose_name = _('Description'))
+    color = models.CharField(max_length=20, 
+                             db_column = 'color', 
+                             verbose_name = _('Coloring for puml'),
+                             default='')
+    mark  = models.CharField(max_length=1,  
+                             verbose_name = _('Header mark for puml'),
+                             db_column = 'mark', 
+                             default='')
 
     def __str__(self):
         return f'{self.description}'
@@ -43,42 +52,42 @@ class ADR(models.Model):
                                     default='',
                                     help_text=_('Required. Describe what circumstances lead you to this point.'),
                                     verbose_name = _('Decision context'),
-                                    name=_('Decision context'),
+                                    name=_('decContext'),
                                     db_column='context')
     status   = models.ForeignKey(to=Status, 
                                     default='',
                                     on_delete=models.PROTECT, 
                                     help_text=_('Required. Current status of the decision. Could be changed over time'),
                                     verbose_name = _('Decision status'),
-                                    name=_('Decision status'),
+                                    name=_('decStatus'),
                                     db_column='status')
     decision = models.TextField(blank = False,
                                     default='',
                                     help_text=_('Required. Describe how do you overcome the obstracle111.'),
                                     verbose_name = _('Decision'),
-                                    name=_('Decision'),
+                                    name=_('decision'),
                                     db_column='decision')
     effects  = models.TextField(blank = False,
                                     default='',
                                     help_text=_('Required. Describe either effects on previous or future decisions'),
                                     verbose_name = _('Effects. Both positive and negative'),
-                                    name=_('Effects'),
+                                    name=_('effects'),
                                     db_column='effects')  
     affects  = models.ManyToManyField(to=System, #on_delete=models.PROTECT,
                                     help_text=_('Required. Affected systems. Could be ALL, None or some in between'),
                                     verbose_name = _('Affected solutions'),
-                                    name=_('Affected solutions'),
+                                    name=_('affectedSolutions'),
                                     db_column='affects')  
     projectLink = models.TextField( blank=True, 
                                     help_text=_('Optional. Link to jira project'),
                                     verbose_name = _('Project Link'),
-                                    name=_('Project Link'),
+                                    name=_('projectLink'),
                                     db_column='projectLink')
     statusChangedAt = models.DateTimeField(auto_now=True, 
                                     null=True,
                                     help_text=_('When status was changed'),
                                     verbose_name = _('When status was changed'),
-                                    name=_('When status was changed'),
+                                    name=_('statusChangedAt'),
                                     db_column='statusChangedAt')
     influence = models.ManyToManyField(to="self", through='InfluenceADR')
 

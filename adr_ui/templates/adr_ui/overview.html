@@ -7,10 +7,9 @@
     <meta charset="utf-8">
     <title>ADR List</title>
   </head>
+  {% csrf_token %}
   <body>
     PUML diagram here    
-    <Textarea>
-        {{ foo }}
-    </Textarea>  
+    <Textarea rows="50" cols="120">{{ pumlContent }}</Textarea>  
   </body>  
 </html>
