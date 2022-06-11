@@ -5,6 +5,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 
 from .models import ADR
 from .forms import ADRForm
@@ -61,4 +62,6 @@ def get_adr(request, adr_id = None, template_name='adr_ui/new_adr.html'):
     return render(request, template_name, {'form': form})
 
 def gen_overview(request):
-    return render(request, 'adr_ui/overview.html')
+    
+    return HttpResponse(render_to_string('adr_ui/overview.html', { 'foo': 'bar' }))
+    #return render(request, 'adr_ui/overview.html')

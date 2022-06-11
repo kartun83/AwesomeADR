@@ -1,6 +1,7 @@
 # Install dependencies
 pip install django-crispy-forms
 pip install django-tables2
+pip install requests
 
 
 # Perform migration
