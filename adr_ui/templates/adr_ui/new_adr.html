@@ -1,3 +1,4 @@
+{%load crispy_forms_tags %} 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -6,9 +7,11 @@
     <title>New ADR</title>
   </head>
   <body>    
-    <form action="/adr_ui/new_adr/" method="post">
+    <form action="/adr_ui/new_adr" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <table>
+            {{ form.as_table}}
+        </table>
         <input type="submit" value="Submit">
     </form>
   </body>
