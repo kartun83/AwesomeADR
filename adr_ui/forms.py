@@ -1,5 +1,5 @@
 from django import forms
-from .models import Status, System, ADR
+from .models import Status, System, ADR,InfluenceADR
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -7,7 +7,8 @@ from crispy_forms.layout import Submit
 class ADRForm(forms.ModelForm):
     class Meta:
         model = ADR
-        exclude = ('',)
+        fields = [ 'context','status','decision',
+                  'effects','affects','projectLink','statusChangedAt','influence']
     adrCreatedAt = forms.DateTimeField(disabled=True, widget=forms.DateTimeInput) 
     context   = forms.CharField(widget=forms.Textarea)
     status    = forms.ModelChoiceField(queryset = Status.objects.all())
@@ -18,6 +19,7 @@ class ADRForm(forms.ModelForm):
                                               queryset = System.objects.all())  
     projectLink = forms.CharField(required=False, widget=forms.URLInput)
     statusChangedAt = forms.DateTimeField(disabled=True, widget=forms.DateTimeInput) 
+    influence = forms.ModelChoiceField(queryset = InfluenceADR.objects.all())
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)

@@ -1,6 +1,7 @@
 from pydoc import describe
 from django.db import models
 from django.utils.translation import gettext as _
+from numpy import unique
 #from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
@@ -22,14 +23,14 @@ class Influence(models.Model):
     createdAt   = models.DateTimeField(auto_now_add=True,db_column='createdAt')
     description_fwd = models.TextField(help_text=_('Required. Description on influence .'),
                                     verbose_name = _('Influence Forward'),
-                                    name=_('Influence Forward'),
+                                    name=_('description_fwd'),
                                     db_column='influence_fwd')
     description_back = models.TextField(help_text=_('Required. Description on influence .'),
                                     verbose_name = _('Influence Backward'),
-                                    name=_('Influence Backward'),
+                                    name=_('description_back'),
                                     db_column='influence_back')
     def __str__(self):
-        return f'{self.id}'
+        return f'{str(self.description_fwd)}'
 
 class ADR(models.Model):
     adrCreatedAt = models.DateTimeField(auto_now_add=True, 
@@ -45,26 +46,30 @@ class ADR(models.Model):
                                     name=_('Decision context'),
                                     db_column='context')
     status   = models.ForeignKey(to=Status, 
+                                    default='',
                                     on_delete=models.PROTECT, 
                                     help_text=_('Required. Current status of the decision. Could be changed over time'),
                                     verbose_name = _('Decision status'),
                                     name=_('Decision status'),
-                                    db_column='context'),
-    decision = models.TextField(help_text=_('Required. Describe how do you overcome the obstracle.'),
+                                    db_column='status')
+    decision = models.TextField(blank = False,
+                                    default='',
+                                    help_text=_('Required. Describe how do you overcome the obstracle111.'),
                                     verbose_name = _('Decision'),
                                     name=_('Decision'),
-                                    db_column='decision'),
-    effects  = models.TextField(help_text=_('Required. Describe either effects on previous or future decisions'),
+                                    db_column='decision')
+    effects  = models.TextField(blank = False,
+                                    default='',
+                                    help_text=_('Required. Describe either effects on previous or future decisions'),
                                     verbose_name = _('Effects. Both positive and negative'),
                                     name=_('Effects'),
-                                    db_column='effects'),  
+                                    db_column='effects')  
     affects  = models.ManyToManyField(to=System, #on_delete=models.PROTECT,
                                     help_text=_('Required. Affected systems. Could be ALL, None or some in between'),
                                     verbose_name = _('Affected solutions'),
                                     name=_('Affected solutions'),
                                     db_column='affects')  
     projectLink = models.TextField( blank=True, 
-                                    null=True,
                                     help_text=_('Optional. Link to jira project'),
                                     verbose_name = _('Project Link'),
                                     name=_('Project Link'),
@@ -78,15 +83,27 @@ class ADR(models.Model):
     influence = models.ManyToManyField(to="self", through='InfluenceADR')
 
     def __str__(self):
-        return f'ADR-{self.id}'
+        return f'ADR-{self.id} {self.Decision}'
 
 class InfluenceADR(models.Model):
+    src_adr    = models.ForeignKey(to=ADR, 
+                                   null=True,
+                                   on_delete=models.PROTECT, 
+                                   db_column='src_adr',
+                                   related_name='src_adr',
+                                   verbose_name = _('Source ADR')) 
     influence  = models.ForeignKey(to=Influence, 
-                                  on_delete=models.PROTECT)
+                                  on_delete=models.PROTECT)                                   
     inf_adr    = models.ForeignKey(to=ADR, 
-                                   on_delete=models.PROTECT) 
+                                   on_delete=models.PROTECT,
+                                   db_column='inf_adr',
+                                   related_name='inf_adr',
+                                   verbose_name = _('Affected ADR')) 
     changedAt   = models.DateTimeField(auto_now_add=True,db_column='changedAt')  
 
     def __str__(self):
-        return f'{self.influence.description_fwd}'    
+        return f'{self.influence.description_fwd[:50]}'    
+
+    class Meta:
+        unique_together = [['src_adr','influence', 'inf_adr']]
       
