@@ -7,6 +7,9 @@ from django.utils.translation import gettext as _
 class Status(models.Model):
     description = models.TextField()
 
+    def __str__(self):
+        return f'{self.description}'
+
 class System(models.Model):
     createdAt = models.DateTimeField('date created'),
     name      = models.TextField()
@@ -15,7 +18,7 @@ class System(models.Model):
         return f'{self.name}'
 
 class ADR(models.Model):
-    createdAt = models.DateTimeField(auto_now=True, 
+    createdAt = models.DateTimeField(auto_now=False, 
                                     null=True,
                                     help_text=_('Required. First date of consideration'),
                                     verbose_name = _('When ADR was created'),
@@ -27,7 +30,8 @@ class ADR(models.Model):
                                     verbose_name = _('Decision context'),
                                     name=_('Decision context'),
                                     db_column='context')
-    status   = models.ForeignKey(Status, on_delete=models.PROTECT, 
+    status   = models.ForeignKey(to=Status, 
+                                    on_delete=models.PROTECT, 
                                     help_text=_('Required. Current status of the decision. Could be changed over time'),
                                     verbose_name = _('Decision context'),
                                     name=_('Decision context'),
@@ -52,7 +56,7 @@ class ADR(models.Model):
                                     db_column='projectLink')
     statusChangedAt = models.DateTimeField(auto_now=True, 
                                     null=True,
-                                    help_text=_('Required. Affected systems. Could be ALL, None or some in between'),
+                                    help_text=_('When status was changed'),
                                     verbose_name = _('When status was changed'),
                                     name=_('When status was changed'),
                                     db_column='statusChangedAt')
