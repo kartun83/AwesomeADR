@@ -9,7 +9,7 @@
     {% if latest_adr_list %}
     <ul>
     {% for adr in latest_adr_list %}
-        <li><a href="/adrs/{{ adr.id }}/">{{ adr.decision }}</a></li>
+        <li><a href="/adr_ui/adrs/{{ adr.id }}/">{{ adr.decision }}</a></li>
     {% endfor %}
     </ul>
     {% else %}
