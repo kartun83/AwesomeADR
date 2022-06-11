@@ -5,11 +5,9 @@ endheader
 
 title Архитектурные решения
 
-' TODO :: Push labels to DB
-' << (?,lightblue) >>
 ' TODO :: Move "ADR" prefix to some kind of config
 {% for adr in obj%}
-class ADR-{{ adr.id }} << (?,lightblue) >>{
+class ADR-{{ adr.id }} << ({{ adr.decStatus.mark }}, {{ adr.decStatus.color }}) >>{
 ' a3.first().__dict__.get('Decision context')
 Предпосылки/контекст:\n{{ adr.decContext }}
 --
@@ -22,14 +20,19 @@ class ADR-{{ adr.id }} << (?,lightblue) >>{
 Проект:  [[{{ adr.projectLink }}]]
 --
 Дата: {{ adr.adrCreatedAt }}
+
+'{{ adr.influence }}
 }
 {% endfor %}
-' TODO :: Push to DB
+
+' Relations
+'
+'{% for adr in obj%}
+'    {{ adr.influence }}
+'{% endfor %}
 legend bottom right
 |=|=Описание|
-|<#limegreen>+|актуальное действующее решение|
-|<#lightblue>?|предложенное решение|
-|<#orange>T|временное решение|
-|<#gray>X|отменённое решение|
+{% for item in legend %}|<#{{ item.color }}>{{ item.mark }}|{{ item.description }}|
+{% endfor %}
 endlegend
 @enduml

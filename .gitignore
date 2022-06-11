@@ -2,3 +2,5 @@ example_schema/example/example.png
 example_schema/example/example.svg
 adr_ui/migrations/0003_alter_adr_when adr was created.py
 adr_ui/migrations/__pycache__/0003_alter_adr_when adr was created.cpython-38.pyc
+adr_ui/__pycache__/models.cpython-38.pyc
+adr_ui/__pycache__/views.cpython-38.pyc

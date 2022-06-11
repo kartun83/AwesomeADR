@@ -9,6 +9,7 @@ from numpy import unique
 class Status(models.Model):
     description = models.TextField( db_column = 'description', 
                                     verbose_name = _('Description'))
+    # https://github.com/qywx/PlantUML-colors
     color = models.CharField(max_length=20, 
                              db_column = 'color', 
                              verbose_name = _('Coloring for puml'),
@@ -92,7 +93,7 @@ class ADR(models.Model):
     influence = models.ManyToManyField(to="self", through='InfluenceADR')
 
     def __str__(self):
-        return f'ADR-{self.id} {self.Decision}'
+        return f'ADR-{self.id} {self.decision}'
 
 class InfluenceADR(models.Model):
     src_adr    = models.ForeignKey(to=ADR, 
@@ -113,6 +114,7 @@ class InfluenceADR(models.Model):
     def __str__(self):
         return f'{self.influence.description_fwd[:50]}'    
 
-    class Meta:
-        unique_together = [['src_adr','influence', 'inf_adr']]
+    # TODO :: Fix this
+    # class Meta:
+    #     unique_together = [['src_adr','influence', 'inf_adr']]
       

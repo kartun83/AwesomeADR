@@ -7,7 +7,7 @@ from django.template import loader
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 
-from .models import ADR
+from .models import ADR, Status, InfluenceADR
 from .forms import ADRForm
 
 from django.views.generic import ListView
@@ -62,6 +62,6 @@ def get_adr(request, adr_id = None, template_name='adr_ui/new_adr.html'):
     return render(request, template_name, {'form': form})
 
 def gen_overview(request):
-    pumlContent = render_to_string('adr_ui/puml_template.puml', { 'obj': ADR.objects.all() })
+    pumlContent = render_to_string('adr_ui/puml_template.puml', { 'obj': ADR.objects.all(), 'legend': Status.objects.all() })
     return HttpResponse(render_to_string('adr_ui/overview.html', { 'pumlContent': pumlContent }))
     #return render(request, 'adr_ui/overview.html')
