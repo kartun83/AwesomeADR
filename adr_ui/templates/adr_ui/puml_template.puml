@@ -3,6 +3,7 @@ header
 Last updated: %date()
 endheader
 
+' TODO :: Move header to config
 title Архитектурные решения
 
 ' TODO :: Move "ADR" prefix to some kind of config
@@ -26,13 +27,21 @@ class ADR-{{ adr.id }} << ({{ adr.decStatus.mark }}, {{ adr.decStatus.color }}) 
 {% endfor %}
 
 ' Relations
-'
-'{% for adr in obj%}
-'    {{ adr.influence }}
-'{% endfor %}
+
+{% if direction == 1 %}
+{% for rel in influence %}
+"{{ rel.src_adr.qualifiedID }}" --> "{{ rel.inf_adr.qualifiedID }}" : "{{ rel.influence.description_fwd }}"{% endfor %}
+{% else %}
+{% for rel in influence %}
+"{{ rel.inf_adr.qualifiedID }}" --> "{{ rel.src_adr.qualifiedID }}" : "{{ rel.influence.description_back }}"{% endfor %}
+{% endif %}
+' End of relations
+
+' Start of legend
 legend bottom right
 |=|=Описание|
 {% for item in legend %}| <#{{ item.color }}>{{ item.mark }}| {{ item.description }}|
 {% endfor %}
 endlegend
+' End of legend
 @enduml

@@ -10,6 +10,8 @@ from django.template.loader import render_to_string
 from .models import ADR, Status, InfluenceADR
 from .forms import ADRForm
 
+from .directions import *
+
 from django.views.generic import ListView
 
 # def index(request):
@@ -62,6 +64,8 @@ def get_adr(request, adr_id = None, template_name='adr_ui/new_adr.html'):
     return render(request, template_name, {'form': form})
 
 def gen_overview(request):
-    pumlContent = render_to_string('adr_ui/puml_template.puml', { 'obj': ADR.objects.all(), 'legend': Status.objects.all() })
+    pumlContent = render_to_string('adr_ui/puml_template.puml', { 'obj': ADR.objects.all(), 'legend': Status.objects.all(), 
+                                                                  'influence': InfluenceADR.objects.all(), 
+                                                                  'direction': directions['backward']})
     return HttpResponse(render_to_string('adr_ui/overview.html', { 'pumlContent': pumlContent }))
     #return render(request, 'adr_ui/overview.html')

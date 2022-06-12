@@ -94,6 +94,8 @@ class ADR(models.Model):
 
     def __str__(self):
         return f'ADR-{self.id} {self.decision}'
+    def qualifiedID(self):
+        return f'ADR-{self.id}'
 
 class InfluenceADR(models.Model):
     src_adr    = models.ForeignKey(to=ADR, 
