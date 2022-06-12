@@ -6,6 +6,7 @@ default superuser: kartun
 password: awesome
 
 # Dependencies
-django-crispy-forms.
-Installation
-pip install django-crispy-forms
+Rerer to install.md
+
+# Customizing
+Refer to customizing.md

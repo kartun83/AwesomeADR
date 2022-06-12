@@ -32,7 +32,7 @@ class ADR-{{ adr.id }} << ({{ adr.decStatus.mark }}, {{ adr.decStatus.color }}) 
 '{% endfor %}
 legend bottom right
 |=|=Описание|
-{% for item in legend %}|<#{{ item.color }}>{{ item.mark }}|{{ item.description }}|
+{% for item in legend %}| <#{{ item.color }}>{{ item.mark }}| {{ item.description }}|
 {% endfor %}
 endlegend
 @enduml
