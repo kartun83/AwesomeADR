@@ -1,12 +1,10 @@
 # AwesomeADR
 Architecture decision log
 
-
-default superuser: kartun
-password: awesome
+# Preambule
 
 # Dependencies
-Rerer to install.md
+Refer to install.md
 
 # Customizing
 Refer to customizing.md
